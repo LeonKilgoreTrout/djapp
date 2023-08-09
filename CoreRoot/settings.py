@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'core_user.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
+    'core.user',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +78,15 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'core',
+        'OPTIONS': {
+            'options': '-c search_path=myschema'
+        },
+        'NAME': 'coredb',
+        'PASSWORD': 'qwe123rty456',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
