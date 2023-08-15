@@ -1,7 +1,6 @@
-from django.shortcuts import render
-
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from core.user.serializers import UserSerializer
 from core.user.models import User
@@ -9,10 +8,10 @@ from core.user.models import User
 
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ('patch', 'get')
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
 
-    def ger_queryset(self):
+    def get_queryset(self):
         if self.request.user.is_superuser:
             return User.objects.all()
         return User.objects.exclude(is_superuser=True)
@@ -21,4 +20,3 @@ class UserViewSet(viewsets.ModelViewSet):
         obj = User.objects.get_object_by_public_id(self.kwargs["pk"])
         self.check_object_permissions(self.request, obj)
         return obj
-    
